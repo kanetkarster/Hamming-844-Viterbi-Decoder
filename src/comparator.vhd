@@ -29,20 +29,26 @@ architecture implementation of comparator is
 	
 begin
 	
-	with prob1>=prob2 select data_max <=
-		prob1 when true,
-		prob2 when false;
+	--! find the absolute max and absolute min probabilities
+	with std_logic_vector(prob1(8 downto 0)) >= std_logic_vector(prob2(8 downto 0))
+		select data_max <=
+			prob1 when true,
+			prob2 when false;
 	
-	with prob1>=prob2 select data_min <=
-		prob2 when true,
-		prob1 when false;
+	with std_logic_vector(prob1(8 downto 0)) >= std_logic_vector(prob2(8 downto 0))
+		select data_min <=
+			prob2 when true,
+			prob1 when false;
 	
+	--! taking into account the signs, determine which is more likely
 	max_tmp <= prob1 when prob1(9) = '1' and prob2(9) = '0' else 
 				  prob2 when prob1(9) = '0' and prob2(9) = '1' else
 				  data_min when prob1(9) = '0' and prob2(9) = '0' else
 				  data_max;
+	--! output prob1 or prob2
 	with max_tmp select which <=
 		'0' when prob1,
 		'1' when prob2;
+	--! choose the more likely probability
 	maxprob <= max_tmp;
 end implementation;

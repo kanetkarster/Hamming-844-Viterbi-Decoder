@@ -25,6 +25,25 @@ end st1;
 architecture implementation of st1 is
 
 -- components --
+component adder_bottom
+	port (
+		data_in : in signed(9 downto 0);
+		prob_out : out signed(9 downto 0));
+end component;
+
+component adder_top
+	port (
+		data_in1 : in signed(9 downto 0);
+		data_in2 : in signed(9 downto 0);
+		prob_out : out signed(9 downto 0));
+end component;
+
+component comparator
+	port (
+		prob1 : in signed(9 downto 0);
+		prob2 : in signed(9 downto 0);
+		maxprob : out signed(9 downto 0));
+end component;
 -- constants --
 -- signals --
 
